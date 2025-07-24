@@ -1,0 +1,61 @@
+##IAR Ninja build file
+
+
+#Rules
+rule COMPILER_XCL
+  command = "C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 9.1\common\bin\XclFileGenerator.exe" $xclcommand -f "$rspfile_name"
+  description = IAR_NEW_TOOL+++COMPILER_XCL+++$in+++"C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 9.1\common\bin\XclFileGenerator.exe" $flags
+  rspfile = $rspfile_name
+  rspfile_content = $flags
+
+rule INDEXER
+  command = "C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 9.1\common\bin\SourceIndexer.exe" $flags
+  depfile = $out.dep
+  description = IAR_NEW_TOOL+++INDEXER+++$out+++"C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 9.1\common\bin\SourceIndexer.exe" $flags
+
+rule MAKEBROWSE
+  command = "C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 9.1\common\bin\makeBrowseData.exe" $flags
+  description = IAR_NEW_TOOL+++MAKEBROWSE+++$out+++"C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 9.1\common\bin\makeBrowseData.exe" $flags
+
+rule PDBLINK
+  command = "C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 9.1\common\bin\PbdLink.exe" $flags
+  description = IAR_NEW_TOOL+++PDBLINK+++$out+++"C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 9.1\common\bin\PbdLink.exe" $flags
+
+
+
+#Build steps
+build D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\device\system_stm32l4xx.xcl : COMPILER_XCL 
+  xclcommand = -source_file D$:\FW\Nucleo-L476RG\LED_Blink\source\device\system_stm32l4xx.c -xcl_file D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\device\system_stm32l4xx.xcl -macro_file D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\device\system_stm32l4xx.tmp -icc_path "C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 9.1\arm\bin\iccarm.exe"
+  flags = D$:\FW\Nucleo-L476RG\LED_Blink\source\device\system_stm32l4xx.c -D NDEBUG -o D$:\FW\Nucleo-L476RG\LED_Blink\Release\Obj\source\device --endian=little --cpu=Cortex-M3 -e --fpu=None --dlib_config "C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 9.1\arm\inc\c\DLib_Config_Normal.h" -Oh --predef_macros D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\device\system_stm32l4xx.tmp
+  rspfile_name = D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\device\system_stm32l4xx.xcl.rsp
+
+build D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\main.xcl : COMPILER_XCL 
+  xclcommand = -source_file D$:\FW\Nucleo-L476RG\LED_Blink\main.c -xcl_file D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\main.xcl -macro_file D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\main.tmp -icc_path "C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 9.1\arm\bin\iccarm.exe"
+  flags = D$:\FW\Nucleo-L476RG\LED_Blink\main.c -D NDEBUG -o D$:\FW\Nucleo-L476RG\LED_Blink\Release\Obj\source --endian=little --cpu=Cortex-M3 -e --fpu=None --dlib_config "C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 9.1\arm\inc\c\DLib_Config_Normal.h" -Oh --predef_macros D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\main.tmp
+  rspfile_name = D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\main.xcl.rsp
+
+build D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\timer.xcl : COMPILER_XCL 
+  xclcommand = -source_file D$:\FW\Nucleo-L476RG\LED_Blink\source\timer.c -xcl_file D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\timer.xcl -macro_file D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\timer.tmp -icc_path "C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 9.1\arm\bin\iccarm.exe"
+  flags = D$:\FW\Nucleo-L476RG\LED_Blink\source\timer.c -D NDEBUG -o D$:\FW\Nucleo-L476RG\LED_Blink\Release\Obj\source --endian=little --cpu=Cortex-M3 -e --fpu=None --dlib_config "C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 9.1\arm\inc\c\DLib_Config_Normal.h" -Oh --predef_macros D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\timer.tmp
+  rspfile_name = D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\timer.xcl.rsp
+
+build D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\device\system_stm32l4xx.pbi : INDEXER D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\device\system_stm32l4xx.xcl |  $
+D$:\FW\Nucleo-L476RG\LED_Blink\source\device\system_stm32l4xx.c
+  flags = -out=D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\device\system_stm32l4xx.pbi -f D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\device\system_stm32l4xx.xcl
+
+build D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\main.pbi : INDEXER D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\main.xcl |  $
+D$:\FW\Nucleo-L476RG\LED_Blink\main.c
+  flags = -out=D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\main.pbi -f D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\main.xcl
+
+build D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\timer.pbi : INDEXER D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\timer.xcl |  $
+D$:\FW\Nucleo-L476RG\LED_Blink\source\timer.c
+  flags = -out=D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\timer.pbi -f D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\timer.xcl
+
+build D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\led_blink.pbw : MAKEBROWSE D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\led_blink.pbd
+  flags = D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\led_blink.pbd -output D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\led_blink.pbw
+
+build D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\led_blink.pbd : PDBLINK D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\device\system_stm32l4xx.pbi |  $
+D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\main.pbi $
+D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\timer.pbi
+  flags = -M D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\led_blink.pbd D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\device\system_stm32l4xx.pbi D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\main.pbi D$:\FW\Nucleo-L476RG\LED_Blink\Release\BrowseInfo\source\timer.pbi
+

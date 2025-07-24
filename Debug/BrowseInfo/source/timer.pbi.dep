@@ -1,0 +1,20 @@
+D:\FW\Nucleo-L476RG\low_power_things\Debug\BrowseInfo\source\timer.pbi: \
+  D:\FW\Nucleo-L476RG\low_power_things\source\timer.c \
+  D:\FW\Nucleo-L476RG\low_power_things\source\timer.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\arm\inc\c\stdbool.h \
+  D:\FW\Nucleo-L476RG\low_power_things\source\device\stm32l4xx.h \
+  D:\FW\Nucleo-L476RG\low_power_things\source\device\stm32l476xx.h \
+  D:\FW\Nucleo-L476RG\low_power_things\source\device\core_cm4.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\arm\inc\c\stdint.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\arm\inc\c\ycheck.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\arm\inc\c\yvals.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\arm\inc\c\DLib_Defaults.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\arm\inc\c\DLib_Config_Normal.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\arm\inc\c\DLib_Product.h \
+  D:\FW\Nucleo-L476RG\low_power_things\source\device\cmsis_version.h \
+  D:\FW\Nucleo-L476RG\low_power_things\source\device\cmsis_compiler.h \
+  D:\FW\Nucleo-L476RG\low_power_things\source\device\cmsis_iccarm.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\arm\inc\c\aarch32\iccarm_builtin.h \
+  D:\FW\Nucleo-L476RG\low_power_things\source\device\mpu_armv7.h \
+  D:\FW\Nucleo-L476RG\low_power_things\source\device\system_stm32l4xx.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.1\arm\inc\c\assert.h

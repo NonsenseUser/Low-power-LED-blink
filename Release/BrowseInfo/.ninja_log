@@ -1,0 +1,9 @@
+# ninja log v5
+3	96	7748716740000000	D:/FW/Nucleo-L476RG/LED_Blink/Release/BrowseInfo/source/main.xcl	44008b576799fb39
+1	107	7748716740000000	D:/FW/Nucleo-L476RG/LED_Blink/Release/BrowseInfo/source/device/system_stm32l4xx.xcl	b382a26ab8a340e9
+98	195	7748716740000000	D:/FW/Nucleo-L476RG/LED_Blink/Release/BrowseInfo/source/timer.xcl	be694349ca9f9f64
+197	228	7748716747101815	D:/FW/Nucleo-L476RG/LED_Blink/Release/BrowseInfo/source/main.pbi	38553762a07bf637
+230	254	7748716747414259	D:/FW/Nucleo-L476RG/LED_Blink/Release/BrowseInfo/source/timer.pbi	3d2bbdb83ae38f14
+109	332	7748716748195769	D:/FW/Nucleo-L476RG/LED_Blink/Release/BrowseInfo/source/device/system_stm32l4xx.pbi	56b30a7d64e1beb4
+333	410	7748716748976519	D:/FW/Nucleo-L476RG/LED_Blink/Release/BrowseInfo/led_blink.pbd	c2b5153c6bb253ca
+413	1365	7748716758243482	D:/FW/Nucleo-L476RG/LED_Blink/Release/BrowseInfo/led_blink.pbw	934aa199bd89a4f6

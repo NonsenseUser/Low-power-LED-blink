@@ -1,0 +1,1 @@
+﻿D:\FW\Nucleo-L476RG\LED_Blink\source\device\system_stm32l4xx.c -D NDEBUG -o D:\FW\Nucleo-L476RG\LED_Blink\Release\Obj\source\device --endian=little --cpu=Cortex-M3 -e --fpu=None --dlib_config "C:\Program Files\IAR Systems\Embedded Workbench 9.1\arm\inc\c\DLib_Config_Normal.h" -Oh
