@@ -1,0 +1,1 @@
+Program for microcontroller STM32L426RGT6U compiled in IAR EW. Initially it makes MCU sleep in STOP2 mode and LED blink on LPTIM1 with LSE as clock source. By pressing B1 LSE is turned off which raises LSE CSS interrupt where LPTIM1 is connected to LSI instead and LED continues blinking.
