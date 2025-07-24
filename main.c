@@ -51,7 +51,8 @@ static void css_exti_init(void)
 {
     // Enable EXTI line 19 (CSS LSE interrupt)
     EXTI->IMR1 |= EXTI_IMR1_IM19;
-    
+    // On rising edge
+    EXTI->RTSR1 |= EXTI_RTSR1_RT19;
     NVIC_EnableIRQ(TAMP_STAMP_IRQn);
 }
 
@@ -178,9 +179,22 @@ void TAMP_STAMP_IRQHandler(void)
     if (RCC->CIFR & RCC_CIFR_LSECSSF) {
         // Clear the CSS failure flag by writing 1 to it
         RCC->CICR = RCC_CICR_LSECSSC;
-
-        // Your recovery code here
-        // For example, switch to LSI or flag an error
+        
+        EXTI->PR1 = EXTI_PR1_PIF19;
+        
+        // Switch LPTIM1 to LSI as source
+        RCC->CCIPR &= ~RCC_CCIPR_LPTIM1SEL;
+        RCC->CCIPR |= RCC_CCIPR_LPTIM1SEL_0;
+        
+        // Turn LPTIM1 on and off
+        LPTIM1->CR &= ~LPTIM_CR_ENABLE;
+        // Clear all LPTIM interrupt flags
+        LPTIM1->ICR = 0xFFFFFFFF;
+        LPTIM1->CR |= LPTIM_CR_ENABLE;
+        
+        // Start continous conting again
+        LPTIM1->CR |= LPTIM_CR_CNTSTRT;
+        // World is perfec
     }
 }
 
