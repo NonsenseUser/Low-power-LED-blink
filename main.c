@@ -11,16 +11,6 @@ void delay(volatile uint32_t time)
     while (time--);
 }
 
-// Interrupt handler for PC13 (EXTI line 13)
-extern void EXTI15_10_IRQHandler(void);
-void EXTI15_10_IRQHandler(void) 
-{
-    if (EXTI->PR1 & EXTI_PR1_PIF13) {
-        EXTI->PR1 |= EXTI_PR1_PIF13;  // Clear interrupt flag
-        wake_flag = 1;                // Set flag to indicate wake-up
-    }
-}
-
 static void led_init(void)
 {
     // Enable LED clock
@@ -42,9 +32,9 @@ static void gpio_init(void)
     GPIOC->PUPDR |= GPIO_PUPDR_PUPD13_0;
 }
 
-static void exti_init(void)
+static void but_exti_init(void)
 {
-    // EXTI13 > PC13
+     // EXTI13 > PC13
     SYSCFG->EXTICR[3] &= ~SYSCFG_EXTICR4_EXTI13;
     SYSCFG->EXTICR[3] |= SYSCFG_EXTICR4_EXTI13_PC;
 
@@ -55,6 +45,20 @@ static void exti_init(void)
     // Enable EXTI interrupt
     NVIC_EnableIRQ(EXTI15_10_IRQn);
     NVIC_SetPriority(EXTI15_10_IRQn, 1);
+}
+
+static void css_exti_init(void)
+{
+    // Enable EXTI line 19 (CSS LSE interrupt)
+    EXTI->IMR1 |= EXTI_IMR1_IM19;
+    
+    NVIC_EnableIRQ(TAMP_STAMP_IRQn);
+}
+
+static void exti_init(void)
+{
+   but_exti_init();
+   css_exti_init();
 }
 
 static void syscfg_init(void)
@@ -68,9 +72,7 @@ static void pwr_init(void)
 }
 // Configure GPIOs and EXTI13
 static void gpio_exti_init(void)
-{
-    led_init();
-    
+{  
     gpio_init();
     
     syscfg_init();
@@ -102,10 +104,20 @@ static void timer_init(void)
     RCC->APB1ENR1 |= RCC_APB1ENR1_PWREN;
     PWR->CR1 |= PWR_CR1_DBP;
     while (!(PWR->CR1 & PWR_CR1_DBP));
-
+    
+    // Reset backup domain
+    RCC->BDCR |= RCC_BDCR_BDRST;
+    RCC->BDCR &= ~RCC_BDCR_BDRST;
+    
+    // Enable interrupts by CSS on LSE
+    RCC->CIER |= RCC_CIER_LSECSSIE;
+    
     // Enable LSE
     RCC->BDCR |= RCC_BDCR_LSEON;
     while (!(RCC->BDCR & RCC_BDCR_LSERDY));
+    
+    // Enable Clock Security System on LSE
+    RCC->BDCR |= RCC_BDCR_LSECSSON; 
     
     // Enable LSI and wait for it to be ready
     RCC->CSR |= RCC_CSR_LSION;
@@ -139,6 +151,7 @@ static void timer_init(void)
 }
 
 
+// Timer overflow interrupt
 void LPTIM1_IRQHandler(void);
 void LPTIM1_IRQHandler(void)
 {
@@ -156,11 +169,37 @@ void LPTIM1_IRQHandler(void)
         }
     }
 }
+
+// LPTIM failure interrupt
+void TAMP_STAMP_IRQHandler(void);
+void TAMP_STAMP_IRQHandler(void)
+{
+    // Check if LSE CSS flag is set (LSE Clock Security System failure)
+    if (RCC->CIFR & RCC_CIFR_LSECSSF) {
+        // Clear the CSS failure flag by writing 1 to it
+        RCC->CICR = RCC_CICR_LSECSSC;
+
+        // Your recovery code here
+        // For example, switch to LSI or flag an error
+    }
+}
+
+// Button press interrupt (to turn off LSE and cause CSS interrupt)
+void EXTI15_10_IRQHandler(void);
+void EXTI15_10_IRQHandler(void) 
+{
+    if (EXTI->PR1 & EXTI_PR1_PIF13) {
+        EXTI->PR1 |= EXTI_PR1_PIF13;  // Clear interrupt flag
+        
+        if (RCC->BDCR & RCC_BDCR_LSEON) // If LSE is ON
+            RCC->BDCR &= ~RCC_BDCR_LSEON; // Turn off LSE 
+    }
+}
+
 static void timer_IR_init(void)
 {
     // Enable overflow interrupt
     LPTIM1->IER |= LPTIM_IER_ARRMIE;
-    
     NVIC_EnableIRQ(LPTIM1_IRQn);
 }
 int main(void)
@@ -171,11 +210,12 @@ int main(void)
     // Set an LPTIM on lse clock with 0.5s interval
     timer_init();
     
-    //set interrupt on clock overflow
+    // Set interrupt on clock overflow
     timer_IR_init();
-    //enter STOP2
     
-    //
+    // Set interrupt on pressing the button (to turn off LSE and cause CSS interrupt)
+    gpio_exti_init();
+    
     // LED OFF initially
     GPIOA->BRR = GPIO_BRR_BR5;
     while (1) {
